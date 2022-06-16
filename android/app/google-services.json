@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "849015676888",
+    "project_id": "quizz-75e92",
+    "storage_bucket": "quizz-75e92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849015676888:android:34227783ddbac3a7899cad",
+        "android_client_info": {
+          "package_name": "br.unioeste.quizz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849015676888-ako0lp15nhv110gn0g7rbpl3t201u8ba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-amF8YZ973iFtUdjP3tvdL9VJQpuXvtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "849015676888-ako0lp15nhv110gn0g7rbpl3t201u8ba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
