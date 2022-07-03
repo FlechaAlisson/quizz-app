@@ -10,16 +10,7 @@ class QuestionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomLeft,
-          colors: <Color>[
-            AppColors.primaryGradientColor,
-            AppColors.secondaryGrandientColor,
-          ],
-        ),
-      ),
+      decoration: const BoxDecoration(color: AppColors.background),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -34,21 +25,22 @@ class QuestionPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                ///
                 Text(
                   'Pergunta $page:',
-                  style: TextStyle(
-                    color: AppColors.primaryWhiteColor,
+                  style: const TextStyle(
+                    color: AppColors.secondary,
                     fontWeight: FontWeight.w700,
                     fontSize: 35,
                   ),
                 ),
-                Divider(
-                  thickness: 1,
-                  color: AppColors.primaryWhiteColor,
-                ),
+
                 const SizedBox(height: 32),
+
                 const QuestionContainer(),
+
                 const SizedBox(height: 32),
+
                 Center(
                     child: PrimaryButton(
                   text: 'próximo',

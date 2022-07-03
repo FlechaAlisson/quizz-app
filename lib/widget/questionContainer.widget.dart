@@ -37,82 +37,99 @@ class _QuestionContainerState extends State<QuestionContainer> {
         : Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: AppColors.primaryBackgroundColor,
+              color: AppColors.background,
             ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text(
-                    survey.listQuestions![0].question ?? '@Question',
-                    style: TextStyle(
-                      color: AppColors.primaryTextColor,
-                      fontSize: 24,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                ///
+                Text(
+                  survey.listQuestions![0].question ?? '@Question',
+                  style: const TextStyle(
+                    color: AppColors.secondary,
+                    fontSize: 24,
+                  ),
+                ),
+
+                const SizedBox(height: 35),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.secondary,
+                        ),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: survey.listQuestions![0].options!.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: _itemBuilder,
+                      ),
                     ),
                   ),
-                  const Divider(
-                    thickness: 1,
-                    color: Colors.black,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: survey.listQuestions![0].options!.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: _itemBuilder,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
     final QuestionController survey = Provider.of<QuestionController>(context);
-    return GestureDetector(
-      onTap: () {},
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 20.0),
-        child: Container(
-          padding: const EdgeInsets.all(15.0),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: AppColors.primaryGreenColor,
-              width: 2,
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () => survey.answer(index),
+          behavior: HitTestBehavior.opaque,
+          child: Container(
+            padding: const EdgeInsets.all(15.0),
+            decoration: BoxDecoration(
+              color: survey.listQuestions![survey.currentQuestion - 1].answer ==
+                      index
+                  ? AppColors.primary.withOpacity(0.15)
+                  : Colors.transparent,
             ),
-            color: survey.listQuestions![0].answer == index
-                ? AppColors.primaryGreenColor
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                survey.listQuestions![0].options![index].option!,
-                style: TextStyle(
-                  color: survey.listQuestions![0].answer == index
-                      ? Colors.white
-                      : AppColors.primaryGreenColor,
-                  fontSize: 24,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  survey.listQuestions![survey.currentQuestion - 1]
+                      .options![index].option!,
+                  style: const TextStyle(
+                    color: AppColors.secondary,
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-              Icon(
-                survey.listQuestions![0].answer == index
-                    ? CupertinoIcons.check_mark_circled
-                    : CupertinoIcons.circle,
-                color: survey.listQuestions![0].answer == index
-                    ? Colors.white
-                    : AppColors.primaryGreenColor,
-              )
-            ],
+                Icon(
+                  survey.listQuestions![survey.currentQuestion - 1].answer ==
+                          index
+                      ? CupertinoIcons.circle_fill
+                      : CupertinoIcons.circle,
+                  color: survey.listQuestions![survey.currentQuestion - 1]
+                              .answer ==
+                          index
+                      ? AppColors.primary
+                      : AppColors.secondary,
+                )
+              ],
+            ),
           ),
         ),
-      ),
+        if (index !=
+            (survey.listQuestions?[survey.currentQuestion - 1].options
+                        ?.length ??
+                    0) -
+                1)
+          Container(
+            color: AppColors.secondary,
+            height: 1,
+          )
+      ],
     );
   }
 }

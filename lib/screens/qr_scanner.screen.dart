@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:quizz/utils/appColors.utils.dart';
 
 class QrScannerScreen extends StatefulWidget {
   const QrScannerScreen({Key? key}) : super(key: key);
@@ -54,6 +55,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
           borderWidth: 10,
           borderRadius: 6,
           cutOutSize: MediaQuery.of(context).size.width * 0.8,
+          borderColor: AppColors.primary,
         ),
       );
 

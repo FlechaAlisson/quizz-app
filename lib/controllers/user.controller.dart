@@ -5,21 +5,21 @@ import 'package:quizz/repositories/user.repository.dart';
 
 class UserController extends ChangeNotifier {
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  UserModel? user;
+  UserModel? data;
 
   Future googleLogin() async {
     final userAux = await googleSignIn.signIn();
 
     if (userAux == null) return;
 
-    user = UserModel(
+    data = UserModel(
       name: userAux.displayName,
       email: userAux.email,
       id: userAux.id,
       photoUrl: userAux.photoUrl,
     );
 
-    saveUserData(user!);
+    saveUserData(data!);
 
     notifyListeners();
   }
@@ -27,7 +27,7 @@ class UserController extends ChangeNotifier {
   void saveUserData(UserModel user) => UserRepository.saveUserData(user);
   void clearUserData() => UserRepository.clearUserData();
   UserModel? getUserData() {
-    user = UserRepository.getUserData();
-    return user;
+    data = UserRepository.getUserData();
+    return data;
   }
 }

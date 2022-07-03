@@ -5,5 +5,5 @@ class QuestionModel {
 
   String? question;
   List<OptionModel>? options;
-  int? answer;
+  int? answer = -1;
 }

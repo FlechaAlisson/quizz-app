@@ -26,8 +26,8 @@ class _PrimaryButtonState extends State<PrimaryButton> {
       onTap: widget.onTap,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: AppColors.primaryGreenColor,
+          borderRadius: BorderRadius.circular(3),
+          color: AppColors.primary,
         ),
         width: widget.width,
         height: widget.height,
@@ -38,6 +38,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
             color: Colors.white,
             fontWeight: FontWeight.w700,
             fontSize: 24,
+            decoration: TextDecoration.none,
           ),
         )),
       ),

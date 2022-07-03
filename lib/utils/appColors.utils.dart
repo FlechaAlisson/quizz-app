@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static Color primaryGradientColor = const Color(0xff003A6C);
-  static Color secondaryGrandientColor = const Color(0xff1D004D);
-
-  static Color primaryWhiteColor = const Color(0xffCFE6F3);
-
-  static Color primaryGreenColor = const Color(0xff00C9AB);
-  static Color secundaryGreenColor = const Color(0xffC4FCFD);
-
-  static Color primaryBackgroundColor = const Color(0xffFEF7FF);
-
-  static Color primaryTextColor = const Color(0xff12003D);
-
-  static Color primaryOptionColor = const Color(0xffE4F0F6);
-  static Color primaryBorderOptionColor = const Color(0xffB1A8B9);
+  static const primary = Color(0xFFFF941A);
+  static const secondary = Color(0xFF585666);
+  static const grey = Color(0xFF585666);
+  static const delete = Color(0xFFE83F5B);
+  static const heading = Color(0xFF585666);
+  static const body = Color(0xFF706E7A);
+  static const stroke = Color(0xFFE3E3E6);
+  static const shape = Color(0xFFFAFAFC);
+  static const background = Color(0xFFFFFFFF);
+  static const input = Color(0xFFB1B0B8);
 }

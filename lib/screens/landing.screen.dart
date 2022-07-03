@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quizz/controllers/user.controller.dart';
 import 'package:quizz/model/user/user.model.dart';
+import 'package:quizz/screens/home.screen.dart';
 import 'package:quizz/screens/login.screen.dart';
-import 'package:quizz/screens/question_page.screen.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -32,9 +32,7 @@ class _LandingPageState extends State<LandingPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const QuestionPage(
-              page: 1,
-            ),
+            builder: (context) => const HomeScreen(),
           ),
         );
       }

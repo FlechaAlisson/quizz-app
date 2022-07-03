@@ -7,6 +7,8 @@ class QuestionController extends ChangeNotifier {
 
   List<QuestionModel>? get listQuestions => _listQuestions;
 
+  int currentQuestion = 1;
+
   void loadSurvey() {
     _listQuestions.add(
       QuestionModel(
@@ -17,8 +19,6 @@ class QuestionController extends ChangeNotifier {
           OptionModel(option: 'Neutro'),
           OptionModel(option: 'Odeio'),
           OptionModel(option: 'Odeio muito'),
-          OptionModel(option: 'Odeio muito'),
-          OptionModel(option: 'Odeio muito'),
         ],
       ),
     );
@@ -28,6 +28,15 @@ class QuestionController extends ChangeNotifier {
 
   void optionChosen(int indexQuestion, int indexOption) {
     _listQuestions[indexQuestion].answer = indexOption;
+    notifyListeners();
+  }
+
+  answer(int index) {
+    if (listQuestions?[currentQuestion - 1].answer == index) {
+      listQuestions?[currentQuestion - 1].answer = -1;
+    } else {
+      listQuestions?[currentQuestion - 1].answer = index;
+    }
     notifyListeners();
   }
 }
