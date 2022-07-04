@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'user.model.g.dart';
 
 @HiveType(typeId: 0)
-class UserModel extends HiveObject {
+class UserModel extends HiveObject with ChangeNotifier {
   UserModel({
     this.name,
     this.email,

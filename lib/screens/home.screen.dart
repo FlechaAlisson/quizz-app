@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:quizz/controllers/user.controller.dart';
 import 'package:quizz/screens/qr_scanner.screen.dart';
 import 'package:quizz/utils/appColors.utils.dart';
+import 'package:quizz/widget/cupom.modal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,6 +13,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final UserController user = Provider.of<UserController>(
+        context,
+        listen: false,
+      );
+
+      user.loadCupons();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     UserController user = Provider.of<UserController>(context);
@@ -31,13 +45,33 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[
-              ///
-              SizedBox(height: 16),
-            ],
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ///
+                const SizedBox(height: 16),
+
+                _cupomTitle(),
+
+                const SizedBox(height: 16),
+
+                const Divider(
+                  color: AppColors.divider,
+                  thickness: 1,
+                ),
+
+                const SizedBox(height: 16),
+
+                ListView.builder(
+                  itemBuilder: _itemBuilder,
+                  itemCount: user.cupomList?.length,
+                  shrinkWrap: true,
+                ),
+              ],
+            ),
           ),
         ),
         floatingActionButton: _floatingButton(),
@@ -119,6 +153,60 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Image.network(
           user.data?.photoUrl ?? '',
           height: 75,
+        ),
+      );
+
+  Widget _itemBuilder(BuildContext context, int index) {
+    UserController user = Provider.of<UserController>(context);
+    return GestureDetector(
+      onTap: () => showCupomModal(context, user.cupomList?[index]),
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Row(
+          children: <Widget>[
+            ///
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ///
+                Text(
+                  user.cupomList?[index].storeName ?? '',
+                  style: const TextStyle(
+                    fontSize: 21,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+
+                Text(
+                  'válido até ${user.cupomList?[index].valid ?? ''}',
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+
+            Flexible(child: Container()),
+
+            Text(
+              '${user.cupomList?[index].value.toString() ?? ''}%',
+              style: const TextStyle(
+                fontSize: 21,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _cupomTitle() => const Text(
+        'Meus cupons',
+        style: TextStyle(
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
         ),
       );
 }
