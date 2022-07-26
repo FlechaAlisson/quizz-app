@@ -21,7 +21,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               ///
               const Text(
-                'Nome app',
+                'QuestionApp',
                 style: TextStyle(
                   color: AppColors.body,
                   fontWeight: FontWeight.w700,
@@ -84,7 +84,7 @@ class LoginScreen extends StatelessWidget {
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Enter with Google',
+                  'Entre com Google',
                 ),
               ),
             ),

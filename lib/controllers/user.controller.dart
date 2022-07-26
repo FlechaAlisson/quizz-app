@@ -1,13 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quizz/model/cupom.model.dart';
 import 'package:quizz/model/user/user.model.dart';
+import 'package:quizz/repositories/cupom.repository.dart';
 import 'package:quizz/repositories/user.repository.dart';
 
 class UserController extends ChangeNotifier {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   UserModel? data;
   List<CupomModel>? cupomList = <CupomModel>[];
+  final UserRepository _repository = UserRepository();
+  final CupomRepository _cupomRepository = CupomRepository();
 
   Future googleLogin() async {
     final userAux = await googleSignIn.signIn();
@@ -23,10 +27,14 @@ class UserController extends ChangeNotifier {
 
     saveUserData(data!);
 
+    registerUser(data!);
+
     notifyListeners();
   }
 
   void saveUserData(UserModel user) => UserRepository.saveUserData(user);
+
+  void registerUser(UserModel user) => _repository.registerUser(user);
 
   void clearUserData() => UserRepository.clearUserData();
   UserModel? getUserData() {
@@ -34,24 +42,13 @@ class UserController extends ChangeNotifier {
     return data;
   }
 
-  void loadCupons() {
-    cupomList?.add(
-      CupomModel(
-        storeName: "Little Chico",
-        idHash: "ASDF-1234-BLABLA",
-        value: 30,
-        valid: '12/12/2022',
-      ),
-    );
+  Future<void> loadCupons() async {
+    Response<dynamic>? response =
+        await _cupomRepository.loadCupom(data?.id ?? '');
 
-    cupomList?.add(
-      CupomModel(
-        storeName: "Casas Bahiie",
-        idHash: "ASDF-1234-BLABLA",
-        value: 45,
-        valid: '21/08/2022',
-      ),
-    );
+    for (final dynamic cupom in response?.data) {
+      cupomList?.add(CupomModel.fromJson(cupom));
+    }
 
     notifyListeners();
   }

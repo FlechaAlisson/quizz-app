@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:quizz/model/cupom.model.dart';
 import 'package:quizz/utils/appColors.utils.dart';
 
@@ -38,9 +39,17 @@ class CupomModal extends StatelessWidget {
               ),
             ),
 
+            const SizedBox(height: 8),
+
+            Text('Válido até ${cupom?.valid}'),
+
             const SizedBox(height: 16),
 
-            Text(cupom?.idHash ?? ''),
+            QrImage(
+              data: "https://questionable.jesuisjedi.com/${cupom?.idHash}",
+              version: QrVersions.auto,
+              size: 200.0,
+            ),
 
             const SizedBox(height: 32),
 
@@ -53,7 +62,7 @@ class CupomModal extends StatelessWidget {
                   color: AppColors.primary,
                 ),
               ),
-            )
+            ),
           ],
         ),
       );

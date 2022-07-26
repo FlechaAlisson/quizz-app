@@ -29,52 +29,55 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     UserController user = Provider.of<UserController>(context);
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.background,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(100),
-          child: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
-                color: AppColors.primary,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(100),
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                ),
+                child: _profileWidget(user),
+                height: 100,
               ),
-              child: _profileWidget(user),
-              height: 100,
             ),
           ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ///
-                const SizedBox(height: 16),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ///
+                  const SizedBox(height: 16),
 
-                _cupomTitle(),
+                  _cupomTitle(),
 
-                const SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
-                const Divider(
-                  color: AppColors.divider,
-                  thickness: 1,
-                ),
+                  const Divider(
+                    color: AppColors.divider,
+                    thickness: 1,
+                  ),
 
-                const SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
-                ListView.builder(
-                  itemBuilder: _itemBuilder,
-                  itemCount: user.cupomList?.length,
-                  shrinkWrap: true,
-                ),
-              ],
+                  ListView.builder(
+                    itemBuilder: _itemBuilder,
+                    itemCount: user.cupomList?.length,
+                    shrinkWrap: true,
+                  ),
+                ],
+              ),
             ),
           ),
+          floatingActionButton: _floatingButton(),
         ),
-        floatingActionButton: _floatingButton(),
       ),
     );
   }
@@ -191,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Flexible(child: Container()),
 
             Text(
-              '${user.cupomList?[index].value.toString() ?? ''}%',
+              '${user.cupomList?[index].value?.toStringAsFixed(0) ?? ''}%',
               style: const TextStyle(
                 fontSize: 21,
               ),

@@ -14,19 +14,6 @@ class QuestionContainer extends StatefulWidget {
 
 class _QuestionContainerState extends State<QuestionContainer> {
   @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final QuestionController survey = Provider.of<QuestionController>(
-        context,
-        listen: false,
-      );
-
-      survey.loadSurvey();
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final QuestionController survey = Provider.of<QuestionController>(context);
 
@@ -45,7 +32,8 @@ class _QuestionContainerState extends State<QuestionContainer> {
               children: <Widget>[
                 ///
                 Text(
-                  survey.listQuestions![0].question ?? '@Question',
+                  survey.listQuestions![survey.currentQuestion - 1].question ??
+                      '@Question',
                   style: const TextStyle(
                     color: AppColors.secondary,
                     fontSize: 24,
@@ -67,7 +55,10 @@ class _QuestionContainerState extends State<QuestionContainer> {
                       ),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: survey.listQuestions![0].options!.length,
+                        itemCount: survey
+                            .listQuestions![survey.currentQuestion - 1]
+                            .options!
+                            .length,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: _itemBuilder,
                       ),

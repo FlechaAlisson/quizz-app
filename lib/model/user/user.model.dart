@@ -23,4 +23,15 @@ class UserModel extends HiveObject with ChangeNotifier {
 
   @HiveField(3)
   String? photoUrl;
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {};
+
+    json['name'] = name;
+    json['email'] = email;
+    json['id'] = id;
+    json['password'] = '';
+
+    return json;
+  }
 }

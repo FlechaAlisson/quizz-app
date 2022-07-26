@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:quizz/utils/appColors.utils.dart';
+import 'package:quizz/screens/question_page.screen.dart';
 
 class QrScannerScreen extends StatefulWidget {
   const QrScannerScreen({Key? key}) : super(key: key);
@@ -12,8 +13,6 @@ class QrScannerScreen extends StatefulWidget {
 }
 
 class _QrScannerScreenState extends State<QrScannerScreen> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode? result;
   QRViewController? controller;
 
   @override
@@ -27,9 +26,8 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
     super.reassemble();
     if (Platform.isAndroid) {
       controller!.pauseCamera();
-    } else if (Platform.isIOS) {
-      controller!.resumeCamera();
     }
+    controller!.resumeCamera();
   }
 
   @override
@@ -39,40 +37,28 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
         alignment: Alignment.center,
         children: <Widget>[
           buildQrView(),
-          Positioned(
-            bottom: 10,
-            child: buildResult(),
-          )
         ],
       ),
     );
   }
 
-  Widget buildQrView() => QRView(
-        key: qrKey,
-        onQRViewCreated: onQRViewCreated,
-        overlay: QrScannerOverlayShape(
-          borderWidth: 10,
-          borderRadius: 6,
-          cutOutSize: MediaQuery.of(context).size.width * 0.8,
-          borderColor: AppColors.primary,
-        ),
+  Widget buildQrView() => MobileScanner(
+        allowDuplicates: false,
+        onDetect: (barcode, args) {
+          if (barcode.rawValue == null) {
+            debugPrint('Failed to scan Barcode');
+          } else {
+            final String code = barcode.rawValue!;
+            debugPrint('Barcode found! $code');
+            _navigator();
+          }
+        },
       );
 
-  onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-
-    controller.scannedDataStream.listen((event) {
-      setState(() {
-        result = event;
-      });
-    });
-  }
-
-  Widget buildResult() => Text(
-        result != null ? 'Result: ${result!.code}' : 'scan a code',
-        maxLines: 3,
+  Future<void> _navigator() async => await Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const QuestionPage(page: 1),
+        ),
       );
 }
