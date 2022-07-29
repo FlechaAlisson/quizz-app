@@ -93,6 +93,7 @@ class _QuestionPageState extends State<QuestionPage> {
             TextButton(
               onPressed: () async {
                 await _doPost();
+                await Future.delayed(const Duration(milliseconds: 500));
                 Phoenix.rebirth(context);
               },
               child: Container(
